@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>💘 Para meu amor, Danuza 💘</title>
+  <title>Para Danuza 💖</title>
   <style>
     * {
       margin: 0;
@@ -14,8 +14,8 @@
     body, html {
       height: 100%;
       font-family: 'Segoe UI', sans-serif;
-      position: relative;
       background-color: black;
+      overflow: hidden;
     }
 
     .foto {
@@ -40,7 +40,6 @@
       animation: fadeIn 3s ease forwards;
       width: 90%;
       max-width: 400px;
-      text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
     }
 
     h1 {
@@ -53,12 +52,6 @@
       margin-bottom: 10px;
     }
 
-    .aviso {
-      font-size: 0.9em;
-      opacity: 0.7;
-      margin-top: 10px;
-    }
-
     button {
       margin-top: 15px;
       padding: 10px 20px;
@@ -68,35 +61,17 @@
       color: white;
       border-radius: 10px;
       cursor: pointer;
-      transition: all 0.3s ease;
-    }
-
-    button:hover {
-      background: #ff4d4d;
-      transform: scale(1.05);
     }
 
     @keyframes fadeIn {
       0% { opacity: 0; transform: translate(-50%, -60%); }
       100% { opacity: 1; transform: translate(-50%, -50%); }
     }
-
-    @media (max-width: 400px) {
-      h1 {
-        font-size: 1.4em;
-      }
-      p {
-        font-size: 1em;
-      }
-      button {
-        font-size: 0.9em;
-        padding: 8px 16px;
-      }
-    }
   </style>
 </head>
 <body>
 
+  <!-- IMAGEM DE FUNDO -->
   <img src="imagem.jpg" alt="Foto com Danuza" class="foto" />
 
   <div class="mensagem">
@@ -106,7 +81,6 @@
     <p>Você me faz querer melhorar cada dia mais por nós.</p>
     <p>Amo quando você faz cara de patinha.</p>
     <button onclick="repetirMusica()">Repetir música</button>
-    <p class="aviso">Clique em qualquer lugar para ativar a música 🎶</p>
   </div>
 
   <audio id="musica" autoplay muted loop>
@@ -117,6 +91,7 @@
   <script>
     const musica = document.getElementById('musica');
 
+    // Ativa o som após interação
     document.body.addEventListener('click', () => {
       musica.muted = false;
       musica.play();
@@ -127,5 +102,6 @@
       musica.play();
     }
   </script>
+
 </body>
 </html>
