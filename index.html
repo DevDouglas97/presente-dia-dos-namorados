@@ -10,21 +10,21 @@
       padding: 0;
       box-sizing: border-box;
     }
+
     body, html {
       height: 100%;
-      overflow: hidden;
       font-family: 'Segoe UI', sans-serif;
       position: relative;
+      background-color: black;
     }
 
-    /* Imagem de fundo */
     .foto {
-      position: absolute;
+      position: fixed;
       width: 100%;
       height: 100%;
       object-fit: cover;
       z-index: -1;
-      filter: brightness(0.5); /* escurece para destacar o texto */
+      filter: brightness(0.5);
     }
 
     .mensagem {
@@ -34,23 +34,26 @@
       transform: translate(-50%, -50%);
       color: white;
       text-align: center;
-      background: rgba(0, 0, 0, 0.4);
-      padding: 30px;
+      background: rgba(0, 0, 0, 0.6);
+      padding: 25px;
       border-radius: 20px;
       animation: fadeIn 3s ease forwards;
+      width: 90%;
+      max-width: 400px;
     }
 
     h1 {
-      font-size: 2em;
-      margin-bottom: 10px;
+      font-size: 1.8em;
+      margin-bottom: 15px;
     }
 
     p {
-      font-size: 1.2em;
+      font-size: 1.1em;
+      margin-bottom: 10px;
     }
 
     button {
-      margin-top: 20px;
+      margin-top: 15px;
       padding: 10px 20px;
       font-size: 1em;
       border: none;
@@ -68,25 +71,31 @@
 </head>
 <body>
 
-  <!-- Foto de fundo -->
   <img src="imagem.jpg" alt="Foto com Danuza" class="foto" />
 
   <div class="mensagem">
     <h1>Feliz Dia dos Namorados, meu Bombozão 💖</h1>
     <p>Você é o amor da minha vida. Agradeço por fazer cada dia ser especial.</p>
-    <p>Mesmos nos dias que eu não to bem, você consegue me tirar risadas.</p>
-    <p>Você me faz querer melhorar cada dias mais por nós.</p>
+    <p>Mesmo nos dias que eu não tô bem, você consegue me tirar risadas.</p>
+    <p>Você me faz querer melhorar cada dia mais por nós.</p>
     <p>Amo quando você faz cara de patinha.</p>
     <button onclick="repetirMusica()">Repetir música</button>
   </div>
 
-  <audio id="musica" autoplay loop>
+  <audio id="musica" autoplay muted loop>
     <source src="musica.mp3" type="audio/mpeg">
     Seu navegador não suporta áudio.
   </audio>
 
   <script>
     const musica = document.getElementById('musica');
+
+    // Tenta remover o mute após interação
+    document.body.addEventListener('click', () => {
+      musica.muted = false;
+      musica.play();
+    });
+
     function repetirMusica() {
       musica.currentTime = 0;
       musica.play();
@@ -94,3 +103,4 @@
   </script>
 </body>
 </html>
+
