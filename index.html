@@ -4,6 +4,8 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Para Danuza 💖</title>
+  <!-- Pré-carrega a imagem para melhor performance -->
+  <link rel="preload" href="imagem.jpg" as="image">
   <style>
     * {
       margin: 0;
@@ -13,9 +15,9 @@
 
     body, html {
       height: 100%;
-      font-family: 'Segoe UI', sans-serif;
-      background-color: black;
-      overflow: hidden;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      position: relative;
+      background-color: #000; /* Fallback caso a imagem não carregue */
     }
 
     .foto {
@@ -25,6 +27,8 @@
       object-fit: cover;
       z-index: -1;
       filter: brightness(0.5);
+      /* Fallback visual se a imagem não carregar */
+      background: linear-gradient(135deg, #9a0f0f 0%, #3a0a0a 100%);
     }
 
     .mensagem {
@@ -40,16 +44,19 @@
       animation: fadeIn 3s ease forwards;
       width: 90%;
       max-width: 400px;
+      backdrop-filter: blur(3px); /* Melhora a legibilidade */
     }
 
     h1 {
       font-size: 1.8em;
       margin-bottom: 15px;
+      line-height: 1.3;
     }
 
     p {
       font-size: 1.1em;
       margin-bottom: 10px;
+      line-height: 1.5;
     }
 
     button {
@@ -61,18 +68,37 @@
       color: white;
       border-radius: 10px;
       cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    button:hover {
+      background: #ff0000;
+      transform: scale(1.05);
+    }
+
+    /* Indicador visual de música tocando */
+    .music-playing::after {
+      content: "♪";
+      margin-left: 8px;
+      animation: pulse 1s infinite;
     }
 
     @keyframes fadeIn {
       0% { opacity: 0; transform: translate(-50%, -60%); }
       100% { opacity: 1; transform: translate(-50%, -50%); }
     }
+
+    @keyframes pulse {
+      0% { opacity: 0.5; }
+      50% { opacity: 1; }
+      100% { opacity: 0.5; }
+    }
   </style>
 </head>
 <body>
 
-  <!-- IMAGEM DE FUNDO -->
-  <img src="imagem.jpg" alt="Foto com Danuza" class="foto" />
+  <!-- IMAGEM DE FUNDO COM FALLBACK -->
+  <img src="imagem.jpg" alt="Foto com Danuza" class="foto" onerror="this.onerror=null;this.style.background='linear-gradient(135deg, #9a0f0f 0%, #3a0a0a 100%)'" />
 
   <div class="mensagem">
     <h1>Feliz Dia dos Namorados, meu Bombozão 💖</h1>
@@ -80,7 +106,7 @@
     <p>Mesmo nos dias que eu não tô bem, você consegue me tirar risadas.</p>
     <p>Você me faz querer melhorar cada dia mais por nós.</p>
     <p>Amo quando você faz cara de patinha.</p>
-    <button onclick="repetirMusica()">Repetir música</button>
+    <button id="btnRepetir" onclick="repetirMusica()">Repetir música</button>
   </div>
 
   <audio id="musica" autoplay muted loop>
@@ -90,18 +116,39 @@
 
   <script>
     const musica = document.getElementById('musica');
+    const btnRepetir = document.getElementById('btnRepetir');
+    let audioEnabled = false;
 
     // Ativa o som após interação
-    document.body.addEventListener('click', () => {
-      musica.muted = false;
-      musica.play();
-    });
+    function enableAudio() {
+      if (!audioEnabled) {
+        musica.muted = false;
+        musica.play().catch(e => console.error("Erro ao reproduzir:", e));
+        audioEnabled = true;
+        btnRepetir.classList.add('music-playing');
+      }
+    }
+
+    // Configura os listeners
+    document.body.addEventListener('click', enableAudio);
+    document.body.addEventListener('touchstart', enableAudio); // Para dispositivos móveis
 
     function repetirMusica() {
       musica.currentTime = 0;
-      musica.play();
+      musica.play().catch(e => console.error("Erro ao repetir:", e));
+      if (!audioEnabled) {
+        enableAudio();
+      }
     }
-  </script>
 
+    // Verifica se a imagem carregou
+    window.addEventListener('load', function() {
+      const img = document.querySelector('.foto');
+      if (img.naturalWidth === 0) {
+        console.warn("A imagem de fundo não carregou corretamente");
+        img.style.background = 'linear-gradient(135deg, #9a0f0f 0%, #3a0a0a 100%)';
+      }
+    });
+  </script>
 </body>
 </html>
